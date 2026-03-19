@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ratcliff Rebuild Right LLC Website
 
-## Getting Started
+Marketing site for Ratcliff Rebuild Right LLC built with Next.js, TypeScript, Tailwind CSS, and the App Router.
 
-First, run the development server:
+## Stack
+
+- Next.js 16
+- TypeScript
+- Tailwind CSS v4
+- App Router
+- React Hook Form + Zod
+- Resend for contact form delivery
+
+## Commands
+
+Use `npm.cmd` in this PowerShell environment because `npm.ps1` is blocked by execution policy.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm.cmd install
+npm.cmd run dev
+npm.cmd run lint
+npm.cmd run typecheck
+npm.cmd run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `src/app`: routes, layout, sitemap, robots, and the quote API route
+- `src/components`: reusable marketing components
+- `src/content`: centralized business content and placeholder data
+- `src/lib`: metadata, schema, utilities, and validation
+- `src/types`: shared TypeScript types
+- `public/brand`: logo asset used in the header, footer, and metadata
+- `public/portfolio`: current siding and accent wall project images plus placeholder-ready exterior entries
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment
 
-## Learn More
+Copy `.env.example` to `.env.local` and set the mail credentials before production use.
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+RESEND_API_KEY=your_resend_api_key
+CONTACT_TO_EMAIL=ratt79@charter.net
+CONTACT_FROM_EMAIL=Ratcliff Rebuild Right LLC <quotes@ratcliffrebuildright.com>
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment Notes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project uses a Next.js server and the `/api/quote` route, so it should be deployed as a Node.js app rather than a static site.
 
-## Deploy on Vercel
+The project is configured with `output: "standalone"` in `next.config.ts` to simplify self-hosting. After `npm run build`, the deployable server output is generated in:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `.next/standalone`
+- `.next/static`
+- `public`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For a typical self-hosted Node deployment, upload the contents of `.next/standalone`, then copy `.next/static` to `.next/static` on the server and upload the `public` directory alongside it. Start the app with `server.js` and set the required environment variables in the host panel.
+
+### DigitalOcean + Coolify
+
+The easiest way to host this site alongside future sites on a single server is:
+
+1. Create a DigitalOcean Droplet with the Coolify 1-Click App.
+2. Point a subdomain like `coolify.ratcliffrebuildright.com` to the Droplet IP.
+3. Finish the Coolify first-run setup and create an admin account.
+4. Push this project to GitHub.
+5. In Coolify, create an application from the Git repository using the included `Dockerfile`.
+6. Add the production environment variables:
+
+```bash
+RESEND_API_KEY=your_resend_api_key
+CONTACT_TO_EMAIL=ratt79@charter.net
+CONTACT_FROM_EMAIL=Ratcliff Rebuild Right LLC <quotes@ratcliffrebuildright.com>
+```
+
+7. Assign the production domain `ratcliffrebuildright.com` (and optionally `www.ratcliffrebuildright.com`) to the application in Coolify.
+8. Point the domain DNS records to the Droplet IP and let Coolify issue the SSL certificate automatically.
+
+## Notes for Future Updates
+
+- Verify the sending domain in Resend before using the branded `CONTACT_FROM_EMAIL` address in production.
+- Add future blog routes under `src/app/blog` using the existing metadata/content patterns.
+- Replace the remaining exterior remodel placeholder entries in `src/content/site.ts` as more project photography becomes available.

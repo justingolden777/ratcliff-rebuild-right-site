@@ -1,26 +1,113 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #090909;
+  --foreground: #f5f5f5;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-display);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-body), sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: rgba(251, 146, 60, 0.32);
+    color: #fff7ed;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .skip-link {
+    @apply absolute left-4 top-4 z-[60] -translate-y-24 rounded-xl bg-orange-500 px-4 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-zinc-950 transition focus:translate-y-0 focus:outline-none focus:ring-2 focus:ring-orange-200 focus:ring-offset-2 focus:ring-offset-zinc-950;
+  }
+
+  .container-shell {
+    @apply mx-auto w-full max-w-[1180px] px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-space {
+    @apply py-14 sm:py-16 lg:py-20;
+  }
+
+  .surface-panel {
+    @apply rounded-[1.75rem] border border-white/10 bg-[linear-gradient(180deg,rgba(18,18,20,0.96),rgba(10,10,12,0.94))] shadow-[0_30px_90px_-52px_rgba(0,0,0,0.95)] backdrop-blur-sm;
+  }
+
+  .button-primary {
+    @apply inline-flex min-h-12 items-center justify-center rounded-2xl border border-orange-300/30 bg-[linear-gradient(135deg,#fb923c_0%,#f97316_100%)] px-5 py-3 text-center text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-zinc-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_18px_40px_-24px_rgba(249,115,22,0.85)] transition hover:-translate-y-0.5 hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .button-secondary {
+    @apply inline-flex min-h-12 items-center justify-center rounded-2xl border border-white/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] px-5 py-3 text-center text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-zinc-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition hover:-translate-y-0.5 hover:border-orange-300/40 hover:text-orange-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950;
+  }
+
+  .button-compact {
+    @apply inline-flex min-h-9 items-center justify-center rounded-xl border border-orange-200/30 bg-[linear-gradient(135deg,#fb923c_0%,#f97316_100%)] px-3.5 py-1.5 text-center text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-zinc-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_16px_36px_-24px_rgba(249,115,22,0.9)] transition hover:-translate-y-0.5 hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950;
+  }
+
+  .top-nav-link {
+    @apply whitespace-nowrap rounded-lg px-2 py-1.25 text-[0.84rem] font-semibold uppercase tracking-[0.14em] text-zinc-300 transition hover:bg-white/5 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950;
+  }
+
+  .top-nav-link-active {
+    @apply bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)];
+  }
+
+  .eyebrow {
+    @apply text-[0.68rem] font-semibold uppercase tracking-[0.3em] text-orange-300;
+  }
+
+  .section-title {
+    @apply mt-3 text-balance font-heading text-4xl leading-[0.95] text-white sm:text-5xl lg:text-6xl;
+  }
+
+  .section-copy {
+    @apply mt-5 text-base leading-8 text-zinc-300 sm:text-lg;
+  }
+
+  .form-label {
+    @apply mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-zinc-300;
+  }
+
+  .form-error {
+    @apply mt-2 text-sm text-red-300;
+  }
+
+  .text-action-link {
+    @apply inline-flex items-center text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-zinc-300 transition hover:text-orange-200 focus-visible:outline-none focus-visible:text-orange-200;
+  }
 }
