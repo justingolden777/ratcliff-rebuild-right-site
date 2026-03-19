@@ -9,3 +9,6 @@ README.md
 .env
 .env.local
 .env.*.local
+docs
+images
+.claude
