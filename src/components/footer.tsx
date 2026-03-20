@@ -13,6 +13,9 @@ export function Footer() {
             <p className="max-w-xl text-sm leading-7 text-zinc-300">
               {footerTrustStatement}
             </p>
+            <p className="max-w-xl text-sm leading-7 text-zinc-300">
+              Serving Cleveland, TN 37311 and surrounding Southeast Tennessee communities
+            </p>
             <div className="flex flex-wrap gap-3 text-sm text-zinc-300">
               <Link href={siteConfig.phoneHref} className="button-secondary">
                 {siteConfig.phoneDisplay}
@@ -24,6 +27,9 @@ export function Footer() {
                 Facebook
               </Link>
             </div>
+            <p className="text-sm text-zinc-500">
+              Your information is never sold or shared.
+            </p>
           </div>
 
           <div>

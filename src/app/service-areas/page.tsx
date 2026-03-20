@@ -9,7 +9,7 @@ import { createPageMetadata } from "@/lib/metadata";
 import { getBreadcrumbSchema } from "@/lib/schema";
 
 export const metadata = createPageMetadata({
-  title: "Service Areas – Contractor Serving Southeast Tennessee",
+  title: "Service Areas - Contractor Serving Southeast Tennessee",
   description:
     "Ratcliff Rebuild Right LLC serves Cleveland, Chattanooga, Ooltewah, Athens, Dayton, Charleston, Soddy-Daisy, Hixson, Apison, and McDonald, TN.",
   path: "/service-areas",

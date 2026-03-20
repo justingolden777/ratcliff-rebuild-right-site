@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CtaBand } from "@/components/cta-band";
 import { FaqAccordion } from "@/components/faq-accordion";
 import { HeroSlideshow } from "@/components/hero-slideshow";
+import { JsonLd } from "@/components/json-ld";
 import { PortfolioGrid } from "@/components/portfolio-grid";
 import { SectionHeading } from "@/components/section-heading";
 import { ServiceCard } from "@/components/service-card";
@@ -18,6 +19,7 @@ import {
   testimonials,
 } from "@/content/site";
 import { createPageMetadata } from "@/lib/metadata";
+import { getWebSiteSchema } from "@/lib/schema";
 
 const featuredServices = services.filter((service) => service.featured);
 const portfolioPreview = [
@@ -29,55 +31,55 @@ const portfolioPreview = [
 const heroSlides = [
   {
     src: "/portfolio/siding-1.jpg",
-    alt: "Updated exterior siding installation on a home in daylight",
+    alt: "Siding installation on a Cleveland, TN home",
     captionEyebrow: "Exterior Siding",
     caption: "Full siding refresh in Cleveland, TN. New panels, tight trim, and a cleaner elevation from end to end.",
   },
   {
     src: "/portfolio/accent-wall-1.jpg",
-    alt: "Finished vertical wood slat accent wall in a modern interior",
+    alt: "Custom wood accent wall installation in Cleveland, TN",
     captionEyebrow: "Accent Wall",
     caption: "Custom slat accent wall in Cleveland, TN. Adds texture and depth without making the room feel heavy.",
   },
   {
     src: "/portfolio/siding-2.jpg",
-    alt: "Residential siding and trim detail after an exterior upgrade",
+    alt: "Exterior siding replacement in Bradley County, TN",
     captionEyebrow: "Siding & Trim",
     caption: "Siding and trim upgrade in Bradley County. Better weather protection and a sharper look in three days.",
   },
   {
     src: "/portfolio/accent-wall-2.jpg",
-    alt: "Modern accent wall with dark slats and warm wood tones",
+    alt: "Interior accent wall with custom slat design in Cleveland, TN",
     captionEyebrow: "Feature Wall",
     caption: "Feature wall with natural warmth in Bradley County. Crisp spacing, straight reveals, balanced finish.",
   },
   {
     src: "/portfolio/siding-3.jpg",
-    alt: "Completed siding project on a modernized exterior",
+    alt: "Vinyl siding project completed in Cleveland, TN",
     captionEyebrow: "Exterior Remodel",
     caption: "Modern exterior siding near Chattanooga. Cleaner profile, same durability, done in a week.",
   },
   {
     src: "/portfolio/accent-wall-3.jpg",
-    alt: "Accent wall installation extending across a tall stairwell-style space",
+    alt: "Feature wall built by Ratcliff Rebuild Right in Bradley County, TN",
     captionEyebrow: "Interior Detail",
     caption: "Tall wall detail near Chattanooga. A transitional space turned into a finished focal point.",
   },
   {
     src: "/portfolio/knotty-pine-1.jpg",
-    alt: "Finished knotty pine tongue-and-groove ceiling in a residential space",
+    alt: "Knotty pine ceiling installation in Cleveland, TN home",
     captionEyebrow: "Knotty Pine Ceiling",
     caption: "Tongue-and-groove knotty pine in Cleveland, TN. Warm, textural, and built to improve with age.",
   },
   {
     src: "/portfolio/knotty-pine-2.png",
-    alt: "Knotty pine ceiling covering a sunroom or screened porch space",
+    alt: "Knotty pine tongue and groove ceiling in Bradley County, TN",
     captionEyebrow: "Knotty Pine Ceiling",
     caption: "Knotty pine sunroom ceiling in Bradley County. Natural character that changes how a room feels.",
   },
   {
     src: "/portfolio/knotty-pine-3.png",
-    alt: "Knotty pine ceiling detail showing tight joints and natural wood grain",
+    alt: "Finished knotty pine ceiling project in Cleveland, TN",
     captionEyebrow: "Knotty Pine Ceiling",
     caption: "Clean joints, intentional reveals, and real wood grain. A ceiling finish that stands on its own.",
   },
@@ -117,7 +119,7 @@ export default function HomePage() {
                 Siding | Roofing | Exterior Remodels | Cleveland, TN
               </p>
               <h1 className="mx-auto mt-4 max-w-4xl text-balance font-heading text-5xl leading-[0.9] text-white sm:text-6xl lg:text-[5.7rem]">
-                Clean, dependable exterior work with a clear next step.
+                Siding, Roofing and Exterior Remodeling in Cleveland, TN
               </h1>
               <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-zinc-300 sm:text-lg">
                 Ratcliff Rebuild Right LLC helps homeowners, property managers,
@@ -296,6 +298,7 @@ export default function HomePage() {
         title="Ready to talk about your siding, roofing, or remodeling project?"
         description="Book a free estimate to walk the property, define the scope, and get a practical next step for the work you need in Cleveland, Chattanooga, and the surrounding service area."
       />
+      <JsonLd data={getWebSiteSchema()} />
     </>
   );
 }

@@ -7,7 +7,7 @@ import { createPageMetadata } from "@/lib/metadata";
 import { getBreadcrumbSchema } from "@/lib/schema";
 
 export const metadata = createPageMetadata({
-  title: "Project Gallery – Siding & Exterior Work in Cleveland, TN",
+  title: "Project Gallery - Siding & Exterior Work in Cleveland, TN",
   description:
     "Browse the Ratcliff Rebuild Right LLC portfolio for siding projects, accent wall work, and exterior improvement examples from the current gallery.",
   path: "/portfolio",

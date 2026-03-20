@@ -13,14 +13,14 @@ import "./globals.css";
 
 const headingFont = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: "700",
   display: "swap",
   variable: "--font-display",
 });
 
 const bodyFont = Poppins({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: "400",
   display: "swap",
   variable: "--font-body",
 });

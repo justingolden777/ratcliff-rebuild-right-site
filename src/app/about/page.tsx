@@ -3,12 +3,30 @@ import { JsonLd } from "@/components/json-ld";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeading } from "@/components/section-heading";
 import { TrustStrip } from "@/components/trust-strip";
-import { featuredReasons, processSteps, trustHighlights } from "@/content/site";
+import { processSteps, trustHighlights } from "@/content/site";
 import { createPageMetadata } from "@/lib/metadata";
-import { getBreadcrumbSchema } from "@/lib/schema";
+import { getBreadcrumbSchema, getPersonSchema } from "@/lib/schema";
+
+const aboutValues = [
+  {
+    title: "Direct contact",
+    description:
+      "When clients call, text, or ask for an update, they are talking to the person who knows the property and the job details.",
+  },
+  {
+    title: "Field-led scheduling",
+    description:
+      "Projects are scheduled around real jobsite conditions, material timing, and weather, not a sales calendar disconnected from the work.",
+  },
+  {
+    title: "Licensed and insured",
+    description:
+      "Every project is backed by Tennessee licensing requirements, general liability coverage, and a willingness to provide documentation before work begins.",
+  },
+];
 
 export const metadata = createPageMetadata({
-  title: "About – Family-Owned Contractor in Cleveland, TN",
+  title: "About - Family-Owned Contractor in Cleveland, TN",
   description:
     "Learn more about Ratcliff Rebuild Right LLC, a family-owned Cleveland, TN remodeling and exterior contracting company focused on trust, communication, and dependable craftsmanship.",
   path: "/about",
@@ -75,10 +93,44 @@ export default function AboutPage() {
                   expected at the end of the job.
                 </p>
               </div>
+
+              <div className="mt-10 rounded-[1.75rem] border border-white/10 bg-zinc-900/60 p-8 sm:p-10">
+                <h2 className="font-heading text-4xl leading-none text-white sm:text-5xl">
+                  About Ratcliff Rebuild Right LLC
+                </h2>
+                <div className="mt-6 space-y-5 text-base leading-8 text-zinc-300">
+                  <p>
+                    Ratcliff Rebuild Right LLC was founded in 2025 by Chris
+                    Ratcliff, a Cleveland, TN resident who saw too many
+                    homeowners getting handed off to crews they never met after
+                    signing a contract. The whole idea behind the company is
+                    simple: the person who shows up to give you an estimate is
+                    the same person who does the work.
+                  </p>
+                  <p>
+                    Chris stays active on every job. He handles the scheduling,
+                    the field work, the communication, and the final walkthrough.
+                    There are no project managers sitting between you and the
+                    person with tools in hand.
+                  </p>
+                  <p>
+                    The company is licensed and insured in Tennessee. We carry
+                    general liability coverage on every job and we are happy to
+                    provide documentation before work begins. A contractor license
+                    number will be listed here as soon as our Tennessee
+                    contractor license application is finalized.
+                  </p>
+                  <p>
+                    We serve Cleveland, TN and the surrounding communities
+                    including Chattanooga, Ooltewah, Athens, Dayton, Charleston,
+                    Soddy-Daisy, Hixson, Apison, and McDonald.
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div className="space-y-6">
-              {featuredReasons.map((reason) => (
+              {aboutValues.map((reason) => (
                 <article key={reason.title} className="surface-panel p-6">
                   <h2 className="font-heading text-4xl leading-none text-white">
                     {reason.title}
@@ -125,6 +177,7 @@ export default function AboutPage() {
         { name: "Home", href: "/" },
         { name: "About", href: "/about" },
       ])} />
+      <JsonLd data={getPersonSchema()} />
     </>
   );
 }

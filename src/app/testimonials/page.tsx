@@ -4,10 +4,10 @@ import { PageHero } from "@/components/page-hero";
 import { TestimonialCard } from "@/components/testimonial-card";
 import { testimonials } from "@/content/site";
 import { createPageMetadata } from "@/lib/metadata";
-import { getBreadcrumbSchema } from "@/lib/schema";
+import { getBreadcrumbSchema, getReviewGraphSchema } from "@/lib/schema";
 
 export const metadata = createPageMetadata({
-  title: "Client Reviews – Remodeling Contractor in Cleveland, TN",
+  title: "Client Reviews - Remodeling Contractor in Cleveland, TN",
   description:
     "Read customer testimonials for Ratcliff Rebuild Right LLC and see how clients describe the company's communication, honesty, and siding workmanship.",
   path: "/testimonials",
@@ -52,6 +52,7 @@ export default function TestimonialsPage() {
         { name: "Home", href: "/" },
         { name: "Testimonials", href: "/testimonials" },
       ])} />
+      <JsonLd data={getReviewGraphSchema()} />
     </>
   );
 }

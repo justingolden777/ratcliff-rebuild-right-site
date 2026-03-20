@@ -11,7 +11,7 @@ import { createPageMetadata } from "@/lib/metadata";
 import { getBreadcrumbSchema } from "@/lib/schema";
 
 export const metadata = createPageMetadata({
-  title: "Siding, Roofing & Exterior Remodeling Services – Cleveland, TN",
+  title: "Siding, Roofing & Exterior Remodeling Services - Cleveland, TN",
   description:
     "Explore siding, exterior remodels, storm damage and insurance work, roofing, accent walls, painting, additions, repairs, and remodeling services in Cleveland, TN.",
   path: "/services",

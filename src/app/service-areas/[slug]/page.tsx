@@ -69,6 +69,16 @@ export default async function ServiceAreaPage({ params }: Props) {
         </div>
       </PageHero>
 
+      <section className="border-b border-white/10 py-12 sm:py-16">
+        <div className="container-shell">
+          <div className="mx-auto max-w-4xl rounded-[1.75rem] border border-white/10 bg-zinc-900/60 px-8 py-8 sm:px-10 sm:py-10">
+            <p className="text-base leading-8 text-zinc-300 sm:text-lg">
+              {area.intro}
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="section-space">
         <div className="container-shell">
           <SectionHeading

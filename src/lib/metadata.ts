@@ -17,6 +17,10 @@ const sharedImage = {
   alt: `${siteConfig.name} siding project preview`,
 };
 
+function pageUrl(path: string) {
+  return path === "/" ? `${siteConfig.domain}/` : absoluteUrl(path);
+}
+
 export function createPageMetadata({
   title,
   description,
@@ -28,12 +32,12 @@ export function createPageMetadata({
     description,
     keywords,
     alternates: {
-      canonical: absoluteUrl(path),
+      canonical: pageUrl(path),
     },
     openGraph: {
       title,
       description,
-      url: absoluteUrl(path),
+      url: pageUrl(path),
       siteName: siteConfig.name,
       locale: "en_US",
       type: "website",

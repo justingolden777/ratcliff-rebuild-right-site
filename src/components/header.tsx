@@ -19,7 +19,7 @@ export function Header() {
       <div className="container-shell">
         <div className="mx-auto rounded-[1.15rem] border border-white/10 bg-zinc-950/88 px-4 py-3 shadow-[0_24px_70px_-45px_rgba(0,0,0,0.95)] backdrop-blur-xl lg:w-fit lg:px-3 lg:py-1.5">
           <div className="flex items-center justify-between gap-4 lg:hidden">
-            <SiteLogo variant="header-mobile" priority />
+            <SiteLogo variant="header-mobile" />
 
             <button
               type="button"

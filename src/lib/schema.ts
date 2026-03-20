@@ -1,18 +1,23 @@
-import { faqItems, serviceAreas, services, siteConfig, testimonials } from "@/content/site";
-import type { FAQItem } from "@/types/site";
+import {
+  faqItems,
+  serviceAreas,
+  services,
+  siteConfig,
+  testimonials,
+} from "@/content/site";
+import type { FAQItem, Service } from "@/types/site";
 import { absoluteUrl } from "@/lib/utils";
 
-// TODO: Replace with the actual business street address and ZIP code
-const BUSINESS_ADDRESS = {
-  streetAddress: "",       // e.g. "123 Main St"
-  postalCode: "37311",     // Cleveland, TN ZIP
-};
+const LOCAL_BUSINESS_ID = `${siteConfig.domain}/#localbusiness`;
+const WEBSITE_ID = `${siteConfig.domain}/#website`;
+const CONTACT_URL = `${siteConfig.domain}/contact`;
+const SERVICE_AREA_CITIES = serviceAreas.map((area) => area.city);
 
 export function getLocalBusinessSchema() {
   return {
     "@context": "https://schema.org",
     "@type": ["LocalBusiness", "Contractor"],
-    "@id": `${siteConfig.domain}/#localbusiness`,
+    "@id": LOCAL_BUSINESS_ID,
     name: siteConfig.name,
     url: siteConfig.domain,
     logo: absoluteUrl("/brand/logo.png"),
@@ -27,10 +32,9 @@ export function getLocalBusinessSchema() {
     sameAs: [siteConfig.facebookUrl],
     address: {
       "@type": "PostalAddress",
-      ...(BUSINESS_ADDRESS.streetAddress ? { streetAddress: BUSINESS_ADDRESS.streetAddress } : {}),
       addressLocality: "Cleveland",
       addressRegion: "TN",
-      postalCode: BUSINESS_ADDRESS.postalCode,
+      postalCode: "37311",
       addressCountry: "US",
     },
     geo: {
@@ -38,7 +42,6 @@ export function getLocalBusinessSchema() {
       latitude: 35.1595,
       longitude: -84.8766,
     },
-    // TODO: Update hours to match actual business availability
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
@@ -54,22 +57,53 @@ export function getLocalBusinessSchema() {
       },
     ],
     priceRange: "$$",
-    areaServed: serviceAreas.map((area) => area.city),
+    areaServed: SERVICE_AREA_CITIES,
     knowsAbout: services.map((service) => service.name),
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: "5",
-      reviewCount: String(testimonials.length),
-      bestRating: "5",
+      ratingValue: 5,
+      reviewCount: testimonials.length,
+      bestRating: 5,
+      worstRating: 1,
     },
     contactPoint: [
       {
         "@type": "ContactPoint",
         contactType: "customer service",
         telephone: "+14238277804",
-        areaServed: serviceAreas.map((area) => area.city),
+        areaServed: SERVICE_AREA_CITIES,
       },
     ],
+  };
+}
+
+export function getWebSiteSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": WEBSITE_ID,
+    url: siteConfig.domain,
+    name: siteConfig.name,
+    description:
+      "Remodeling and exterior contracting in Cleveland, TN and surrounding Southeast Tennessee communities.",
+    publisher: {
+      "@id": LOCAL_BUSINESS_ID,
+    },
+  };
+}
+
+export function getPersonSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": `${siteConfig.domain}/about#owner`,
+    name: "Chris Ratcliff",
+    jobTitle: "Owner",
+    worksFor: {
+      "@id": LOCAL_BUSINESS_ID,
+    },
+    url: `${siteConfig.domain}/about`,
+    sameAs: [siteConfig.facebookUrl],
   };
 }
 
@@ -83,6 +117,57 @@ export function getFaqSchema(items: FAQItem[] = faqItems) {
       acceptedAnswer: {
         "@type": "Answer",
         text: item.answer,
+      },
+    })),
+  };
+}
+
+export function getServiceSchema(service: Service) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${siteConfig.domain}/services/${service.slug}#service`,
+    name: service.schemaName,
+    description: service.schemaDescription,
+    url: `${siteConfig.domain}/services/${service.slug}`,
+    serviceType: service.schemaServiceType,
+    provider: {
+      "@id": LOCAL_BUSINESS_ID,
+    },
+    areaServed: SERVICE_AREA_CITIES,
+    offers: {
+      "@type": "Offer",
+      url: CONTACT_URL,
+      priceCurrency: "USD",
+      priceSpecification: {
+        "@type": "PriceSpecification",
+        description: "Free estimates available. Price varies by project scope.",
+      },
+    },
+  };
+}
+
+export function getReviewGraphSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@graph": testimonials.map((testimonial) => ({
+      "@type": "Review",
+      itemReviewed: {
+        "@id": LOCAL_BUSINESS_ID,
+      },
+      author: {
+        "@type": "Person",
+        name: testimonial.name,
+      },
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: 5,
+        bestRating: 5,
+        worstRating: 1,
+      },
+      reviewBody: testimonial.quote,
+      publisher: {
+        "@id": LOCAL_BUSINESS_ID,
       },
     })),
   };

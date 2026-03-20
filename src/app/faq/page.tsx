@@ -7,7 +7,7 @@ import { createPageMetadata } from "@/lib/metadata";
 import { getBreadcrumbSchema, getFaqSchema } from "@/lib/schema";
 
 export const metadata = createPageMetadata({
-  title: "Contractor FAQ – Estimates, Services & Storm Repairs",
+  title: "Contractor FAQ - Estimates, Services & Storm Repairs",
   description:
     "Read common questions about remodeling services, free estimates, licensing, storm damage repair, service areas, and quote requests in Cleveland, TN.",
   path: "/faq",

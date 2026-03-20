@@ -15,6 +15,22 @@ export type Service = {
   longDescription?: string;
   benefits: string[];
   featured?: boolean;
+  schemaName: string;
+  schemaServiceType: string;
+  schemaDescription: string;
+  pageContent?: {
+    intro: string[];
+    sections: Array<{
+      heading: string;
+      paragraphs?: string[];
+      list?: string[];
+      subSections?: Array<{
+        heading: string;
+        paragraphs?: string[];
+        list?: string[];
+      }>;
+    }>;
+  };
 };
 
 export type PortfolioCategory =
@@ -52,6 +68,7 @@ export type ServiceArea = {
   city: string;
   summary: string;
   highlights: string[];
+  intro: string;
 };
 
 export type SiteConfig = {

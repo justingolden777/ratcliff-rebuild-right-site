@@ -8,7 +8,7 @@ import { createPageMetadata } from "@/lib/metadata";
 import { getBreadcrumbSchema } from "@/lib/schema";
 
 export const metadata = createPageMetadata({
-  title: "Book a Free Estimate – Remodeling Contractor in Cleveland, TN",
+  title: "Book a Free Estimate - Remodeling Contractor in Cleveland, TN",
   description:
     "Request a free estimate from Ratcliff Rebuild Right LLC for siding, roofing, storm damage repair, accent walls, and remodeling projects in Cleveland, TN.",
   path: "/contact",
@@ -87,6 +87,13 @@ export default function ContactPage() {
                     <span>Residential and commercial project support</span>
                   </li>
                 </ul>
+                <p className="mt-5 text-sm leading-7 text-zinc-300">
+                  Serving Cleveland, TN 37311 and surrounding Southeast Tennessee communities
+                </p>
+                <p className="mt-3 text-sm leading-7 text-zinc-400">
+                  Prefer email? Reach us through the form above or via Facebook message.
+                </p>
+                {/* TODO: Add email address when available */}
               </article>
 
               <article className="surface-panel p-6 sm:p-7">
@@ -106,6 +113,9 @@ export default function ContactPage() {
                   <p className="mt-3 text-sm leading-7 text-zinc-400">
                     Serving Cleveland, Chattanooga, Ooltewah, Athens, Dayton, Charleston,
                     Soddy-Daisy, Hixson, Apison, McDonald, and nearby communities.
+                  </p>
+                  <p className="mt-3 text-sm leading-7 text-zinc-400">
+                    Serving Cleveland, TN 37311 and surrounding Southeast Tennessee communities
                   </p>
                 </div>
               </article>

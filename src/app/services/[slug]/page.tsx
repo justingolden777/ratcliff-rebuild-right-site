@@ -1,5 +1,5 @@
-import { notFound } from "next/navigation";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 import { CtaBand } from "@/components/cta-band";
 import { JsonLd } from "@/components/json-ld";
@@ -8,8 +8,8 @@ import { PortfolioGrid } from "@/components/portfolio-grid";
 import { SectionHeading } from "@/components/section-heading";
 import { portfolioItems, serviceAreas, services, siteConfig } from "@/content/site";
 import { createPageMetadata } from "@/lib/metadata";
-import { getBreadcrumbSchema } from "@/lib/schema";
-import type { PortfolioCategory } from "@/types/site";
+import { getBreadcrumbSchema, getServiceSchema } from "@/lib/schema";
+import type { PortfolioCategory, Service } from "@/types/site";
 
 const servicePortfolioMap: Partial<Record<string, PortfolioCategory>> = {
   siding: "Siding and Trim",
@@ -31,25 +31,145 @@ const serviceTitleMap: Record<string, string> = {
   "general-remodeling": "General Remodeling in Cleveland, TN",
   additions: "Home Additions in Cleveland, TN",
   repairs: "Home Repairs in Cleveland, TN",
-  "consulting-and-estimates": "Free Estimates – Remodeling Contractor, Cleveland TN",
+  "consulting-and-estimates": "Free Estimates - Remodeling Contractor, Cleveland TN",
 };
 
 const serviceKeywordsMap: Record<string, string[]> = {
-  siding: ["siding contractor Cleveland TN", "siding installation Cleveland TN", "siding replacement Cleveland TN"],
-  "exterior-remodels": ["exterior remodeling Cleveland TN", "exterior contractor Cleveland TN", "home exterior upgrade Cleveland TN"],
-  "storm-damage-and-insurance-work": ["storm damage repair Cleveland TN", "insurance claim contractor Cleveland TN", "hail damage repair Cleveland TN"],
-  roofing: ["roofing contractor Cleveland TN", "roof repair Cleveland TN", "roofing company Cleveland TN"],
-  "accent-walls": ["accent wall installer Cleveland TN", "custom accent wall Cleveland TN", "feature wall installation Cleveland TN"],
-  "knotty-pine-ceilings": ["knotty pine ceiling Cleveland TN", "wood ceiling installation Cleveland TN"],
-  "interior-trim-and-feature-walls": ["interior trim Cleveland TN", "feature wall installation Cleveland TN", "trim carpenter Cleveland TN"],
-  painting: ["painting contractor Cleveland TN", "interior exterior painting Cleveland TN"],
-  "general-remodeling": ["general contractor Cleveland TN", "home remodeling Cleveland TN", "remodeling company Cleveland TN"],
-  additions: ["home addition Cleveland TN", "room addition contractor Cleveland TN"],
+  siding: [
+    "siding contractor Cleveland TN",
+    "siding installation Cleveland TN",
+    "siding replacement Cleveland TN",
+  ],
+  "exterior-remodels": [
+    "exterior remodeling Cleveland TN",
+    "exterior contractor Cleveland TN",
+    "home exterior upgrade Cleveland TN",
+  ],
+  "storm-damage-and-insurance-work": [
+    "storm damage repair Cleveland TN",
+    "insurance claim contractor Cleveland TN",
+    "hail damage repair Cleveland TN",
+  ],
+  roofing: [
+    "roofing contractor Cleveland TN",
+    "roof repair Cleveland TN",
+    "roofing company Cleveland TN",
+  ],
+  "accent-walls": [
+    "accent wall installer Cleveland TN",
+    "custom accent wall Cleveland TN",
+    "feature wall installation Cleveland TN",
+  ],
+  "knotty-pine-ceilings": [
+    "knotty pine ceiling Cleveland TN",
+    "wood ceiling installation Cleveland TN",
+  ],
+  "interior-trim-and-feature-walls": [
+    "interior trim Cleveland TN",
+    "feature wall installation Cleveland TN",
+    "trim carpenter Cleveland TN",
+  ],
+  painting: [
+    "painting contractor Cleveland TN",
+    "interior exterior painting Cleveland TN",
+  ],
+  "general-remodeling": [
+    "general contractor Cleveland TN",
+    "home remodeling Cleveland TN",
+    "remodeling company Cleveland TN",
+  ],
+  additions: [
+    "home addition Cleveland TN",
+    "room addition contractor Cleveland TN",
+  ],
   repairs: ["home repair contractor Cleveland TN", "property repairs Cleveland TN"],
-  "consulting-and-estimates": ["free estimate Cleveland TN contractor", "contractor consultation Cleveland TN"],
+  "consulting-and-estimates": [
+    "free estimate Cleveland TN contractor",
+    "contractor consultation Cleveland TN",
+  ],
 };
 
 type Props = { params: Promise<{ slug: string }> };
+
+function RichServiceContent({
+  intro,
+  sections,
+}: NonNullable<Service["pageContent"]>) {
+  return (
+    <section className="section-space">
+      <div className="container-shell">
+        <div className="mx-auto max-w-4xl space-y-10">
+          {intro.map((paragraph) => (
+            <div
+              key={paragraph}
+              className="rounded-[1.75rem] border border-white/10 bg-zinc-900/60 px-8 py-8 sm:px-10 sm:py-10"
+            >
+              <p className="text-base leading-8 text-zinc-300 sm:text-lg">
+                {paragraph}
+              </p>
+            </div>
+          ))}
+
+          <div className="space-y-8">
+            {sections.map((section) => (
+              <article
+                key={section.heading}
+                className="rounded-[1.75rem] border border-white/10 bg-zinc-950/80 p-8 sm:p-10"
+              >
+                <h2 className="font-heading text-4xl leading-none text-white sm:text-5xl">
+                  {section.heading}
+                </h2>
+                {section.paragraphs?.map((paragraph) => (
+                  <p key={paragraph} className="mt-5 text-base leading-8 text-zinc-300">
+                    {paragraph}
+                  </p>
+                ))}
+                {section.list && (
+                  <ul className="mt-6 space-y-3 text-base leading-8 text-zinc-200">
+                    {section.list.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span
+                          aria-hidden="true"
+                          className="mt-3 h-2 w-2 shrink-0 rounded-full bg-orange-400"
+                        />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {section.subSections?.map((subSection) => (
+                  <div key={subSection.heading} className="mt-8 border-t border-white/10 pt-8">
+                    <h3 className="font-heading text-3xl leading-none text-white sm:text-4xl">
+                      {subSection.heading}
+                    </h3>
+                    {subSection.paragraphs?.map((paragraph) => (
+                      <p key={paragraph} className="mt-4 text-base leading-8 text-zinc-300">
+                        {paragraph}
+                      </p>
+                    ))}
+                    {subSection.list && (
+                      <ul className="mt-5 space-y-3 text-base leading-8 text-zinc-200">
+                        {subSection.list.map((item) => (
+                          <li key={item} className="flex gap-3">
+                            <span
+                              aria-hidden="true"
+                              className="mt-3 h-2 w-2 shrink-0 rounded-full bg-orange-400"
+                            />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                ))}
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export function generateStaticParams() {
   return services.map((service) => ({ slug: service.slug }));
@@ -57,7 +177,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  const service = services.find((s) => s.slug === slug);
+  const service = services.find((item) => item.slug === slug);
   if (!service) return {};
 
   const title = serviceTitleMap[service.slug] ?? `${service.name} in Cleveland, TN`;
@@ -67,23 +187,26 @@ export async function generateMetadata({ params }: Props) {
     title,
     description,
     path: `/services/${service.slug}`,
-    keywords: serviceKeywordsMap[service.slug] ?? [`${service.name.toLowerCase()} Cleveland TN`],
+    keywords:
+      serviceKeywordsMap[service.slug] ?? [`${service.name.toLowerCase()} Cleveland TN`],
   });
 }
 
 export default async function ServicePage({ params }: Props) {
   const { slug } = await params;
-  const service = services.find((s) => s.slug === slug);
+  const service = services.find((item) => item.slug === slug);
   if (!service) notFound();
 
   const relatedCategory = servicePortfolioMap[service.slug];
   const relatedItems = relatedCategory
-    ? portfolioItems.filter((item) => item.category === relatedCategory && !item.placeholder).slice(0, 3)
+    ? portfolioItems
+        .filter((item) => item.category === relatedCategory && !item.placeholder)
+        .slice(0, 3)
     : [];
 
   const pageTitle = serviceTitleMap[service.slug] ?? `${service.name} in Cleveland, TN`;
-
   const areaPreview = serviceAreas.slice(0, 5);
+  const hasRichContent = Boolean(service.pageContent);
 
   return (
     <>
@@ -92,7 +215,11 @@ export default async function ServicePage({ params }: Props) {
         title={pageTitle}
         description={service.shortDescription}
         actions={[
-          { label: siteConfig.primaryCtaLabel, href: siteConfig.primaryCtaHref, variant: "primary" },
+          {
+            label: siteConfig.primaryCtaLabel,
+            href: siteConfig.primaryCtaHref,
+            variant: "primary",
+          },
           { label: "Call Now", href: siteConfig.phoneHref, variant: "secondary" },
         ]}
       >
@@ -104,7 +231,10 @@ export default async function ServicePage({ params }: Props) {
                 key={benefit}
                 className="flex items-center gap-3 rounded-[1.5rem] border border-white/10 bg-white/5 p-4"
               >
-                <span aria-hidden="true" className="h-2 w-2 shrink-0 rounded-full bg-orange-400" />
+                <span
+                  aria-hidden="true"
+                  className="h-2 w-2 shrink-0 rounded-full bg-orange-400"
+                />
                 <span className="text-sm leading-6 text-zinc-200">{benefit}</span>
               </li>
             ))}
@@ -112,73 +242,102 @@ export default async function ServicePage({ params }: Props) {
         </div>
       </PageHero>
 
-      {service.longDescription && (
-        <section className="border-b border-white/10 py-12 sm:py-16">
-          <div className="container-shell">
-            <div className="mx-auto max-w-3xl rounded-[1.75rem] border border-white/10 bg-zinc-900/60 px-8 py-8 sm:px-10 sm:py-10">
-              <p className="text-base leading-8 text-zinc-300 sm:text-lg">
-                {service.longDescription}
-              </p>
-            </div>
-          </div>
-        </section>
-      )}
-
-      <section className="section-space">
-        <div className="container-shell">
-          <div className="grid gap-6 lg:grid-cols-2">
-            <article className="surface-panel p-6 sm:p-8">
-              <p className="eyebrow">Why Ratcliff Rebuild Right</p>
-              <h2 className="mt-3 font-heading text-5xl leading-[0.95] text-white">
-                Owner-led work from estimate to finish
-              </h2>
-              <p className="mt-4 text-base leading-8 text-zinc-300">
-                Chris Ratcliff stays involved on every job, from the initial site
-                walk to the final walkthrough. No hand-offs to an unfamiliar crew,
-                no gap between what was promised and what gets built.
-              </p>
-              <ul className="mt-5 space-y-3 text-sm text-zinc-200">
-                <li className="flex gap-3">
-                  <span aria-hidden="true" className="mt-1 h-2 w-2 shrink-0 rounded-full bg-orange-400" />
-                  <span>Licensed and insured for residential and commercial work</span>
-                </li>
-                <li className="flex gap-3">
-                  <span aria-hidden="true" className="mt-1 h-2 w-2 shrink-0 rounded-full bg-orange-400" />
-                  <span>Free estimates, no commitment required to walk the site</span>
-                </li>
-                <li className="flex gap-3">
-                  <span aria-hidden="true" className="mt-1 h-2 w-2 shrink-0 rounded-full bg-orange-400" />
-                  <span>Warranty-backed work with clear expectations set before start</span>
-                </li>
-              </ul>
-            </article>
-
-            <article className="surface-panel p-6 sm:p-8">
-              <p className="eyebrow">Service Area</p>
-              <h2 className="mt-3 font-heading text-5xl leading-[0.95] text-white">
-                Serving Cleveland and nearby Tennessee communities
-              </h2>
-              <p className="mt-4 text-sm leading-7 text-zinc-300">
-                {service.name} work is available throughout the full service area,
-                including{" "}
-                {areaPreview.map((area, i) => (
-                  <span key={area.slug}>
-                    <Link href={`/service-areas/${area.slug}`} className="text-orange-300 hover:text-orange-200 transition-colors">
-                      {area.city}
-                    </Link>
-                    {i < areaPreview.length - 1 ? ", " : ", and more"}
-                  </span>
-                ))}.
-              </p>
-              <div className="mt-6">
-                <Link href="/service-areas" className="button-secondary">
-                  View All Service Areas
-                </Link>
+      {hasRichContent ? (
+        <RichServiceContent {...service.pageContent!} />
+      ) : (
+        <>
+          {service.longDescription && (
+            <section className="border-b border-white/10 py-12 sm:py-16">
+              <div className="container-shell">
+                <div className="mx-auto max-w-3xl rounded-[1.75rem] border border-white/10 bg-zinc-900/60 px-8 py-8 sm:px-10 sm:py-10">
+                  <p className="text-base leading-8 text-zinc-300 sm:text-lg">
+                    {service.longDescription}
+                  </p>
+                </div>
               </div>
-            </article>
-          </div>
-        </div>
-      </section>
+            </section>
+          )}
+
+          <section className="section-space">
+            <div className="container-shell">
+              <div className="grid gap-6 lg:grid-cols-2">
+                <article className="surface-panel p-6 sm:p-8">
+                  <p className="eyebrow">Why Ratcliff Rebuild Right</p>
+                  <h2 className="mt-3 font-heading text-5xl leading-[0.95] text-white">
+                    Owner-led {service.name.toLowerCase()} work with clear scope from day one
+                  </h2>
+                  <p className="mt-4 text-base leading-8 text-zinc-300">
+                    Chris Ratcliff stays involved in every {service.name.toLowerCase()} job,
+                    from the initial walkthrough to the final walkthrough. That keeps the
+                    scope clear, the communication direct, and the finished work aligned
+                    with what was promised before the project started.
+                  </p>
+                  <ul className="mt-5 space-y-3 text-sm text-zinc-200">
+                    <li className="flex gap-3">
+                      <span
+                        aria-hidden="true"
+                        className="mt-1 h-2 w-2 shrink-0 rounded-full bg-orange-400"
+                      />
+                      <span>
+                        Licensed and insured for {service.name.toLowerCase()} and broader
+                        remodeling work
+                      </span>
+                    </li>
+                    <li className="flex gap-3">
+                      <span
+                        aria-hidden="true"
+                        className="mt-1 h-2 w-2 shrink-0 rounded-full bg-orange-400"
+                      />
+                      <span>
+                        Free on-site estimates for {service.name.toLowerCase()} projects in
+                        Cleveland and nearby communities
+                      </span>
+                    </li>
+                    <li className="flex gap-3">
+                      <span
+                        aria-hidden="true"
+                        className="mt-1 h-2 w-2 shrink-0 rounded-full bg-orange-400"
+                      />
+                      <span>
+                        Warranty-backed workmanship with expectations discussed before work
+                        starts
+                      </span>
+                    </li>
+                  </ul>
+                </article>
+
+                <article className="surface-panel p-6 sm:p-8">
+                  <p className="eyebrow">Service Area</p>
+                  <h2 className="mt-3 font-heading text-5xl leading-[0.95] text-white">
+                    Serving Cleveland and nearby Tennessee communities
+                  </h2>
+                  <p className="mt-4 text-sm leading-7 text-zinc-300">
+                    {service.name} work is available throughout the full service area,
+                    including{" "}
+                    {areaPreview.map((area, index) => (
+                      <span key={area.slug}>
+                        <Link
+                          href={`/service-areas/${area.slug}`}
+                          className="text-orange-300 transition-colors hover:text-orange-200"
+                        >
+                          {area.city}
+                        </Link>
+                        {index < areaPreview.length - 1 ? ", " : ", and more"}
+                      </span>
+                    ))}
+                    .
+                  </p>
+                  <div className="mt-6">
+                    <Link href="/service-areas" className="button-secondary">
+                      View All Service Areas
+                    </Link>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </section>
+        </>
+      )}
 
       {relatedItems.length > 0 && (
         <section className="section-space border-y border-white/10 bg-zinc-900/70">
@@ -206,11 +365,14 @@ export default async function ServicePage({ params }: Props) {
         description={`Book a free estimate to walk the site and get a practical next step for your ${service.name.toLowerCase()} project in Cleveland, Chattanooga, and the surrounding area.`}
       />
 
-      <JsonLd data={getBreadcrumbSchema([
-        { name: "Home", href: "/" },
-        { name: "Services", href: "/services" },
-        { name: service.name, href: `/services/${service.slug}` },
-      ])} />
+      <JsonLd data={getServiceSchema(service)} />
+      <JsonLd
+        data={getBreadcrumbSchema([
+          { name: "Home", href: "/" },
+          { name: "Services", href: "/services" },
+          { name: service.name, href: `/services/${service.slug}` },
+        ])}
+      />
     </>
   );
 }
